@@ -24,12 +24,12 @@ ol, ul {
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
+  height: 60px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 60px;
 }
 
 .square:focus {
@@ -49,7 +49,10 @@ ol, ul {
   margin-left: 20px;
 }
 
+
 #centered{
-    clear:both;
-    align-self: center;
+	clear:both;
+  margin-right: 40%;
+  margin-left: 40%;
+  text-align: center;
 }

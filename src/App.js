@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './App.css'
 
+/*TODO: implement moves' history
 interface Hist{
     id: Number,
     player : String,
@@ -11,7 +12,9 @@ interface Hist{
 interface Histprops{
     traces: Hist[];
 }
-  
+*/
+var isButtonVisible = false;
+
 var count = 1;
     
 function Square(props) {
@@ -31,7 +34,6 @@ class Board extends React.Component {
     this.state = {
       squares : Array(9).fill(null),
       xIsNext: true,
-      isVisible: false,
     }
   }
   
@@ -39,8 +41,7 @@ class Board extends React.Component {
   handleClick(i){
     const squares = this.state.squares.slice();
     if(calculateWinner(squares) || squares[i]){
-        const winner = calculateWinner(squares);
-      	this.setState({ isVisible : true });
+      return;
     }
     if(squares[i] == null){
       squares[i] = this.state.xIsNext ? 'X' : 'O'; 
@@ -60,20 +61,32 @@ class Board extends React.Component {
       />
     );
   }
+  
+  newGame(){
+    count++;
+    var i = 0;
+    for(i = 0; i < 9; i++){
+      this.state.squares[i] = null;
+    }
+  	this.state.xIsNext = (this.winner === 'X' ? false : true);
+  }
 
   render() {
     const winner = calculateWinner(this.state.squares);
     let status;
     if(winner){
       status = 'Winner: ' + winner;
+      isButtonVisible = true;
     } else {
       status = 'Next Player: ' + (this.state.xIsNext ? 'Player 1(X)' : 'Player 2(O)');
     }
 
     return (
       <div>
-        <h1 id="centered">BENVENUTI AL MATCH</h1>
-        <h3 id="centered">Partita {count} di 3</h3>
+        <div id="title">
+        	<h1 id="centered">BENVENUTI AL MATCH</h1>
+        	<h3 id="centered">Partita {count} di 3</h3>
+        </div>
         <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
@@ -94,7 +107,7 @@ class Board extends React.Component {
           <p>     </p>
         </div>
         <div id="newgame">
-          { this.state.isVisible ? <button >Clicca per Nuova Partita</button> : null}
+          { isButtonVisible ? <button onClick={this.newGame}>Clicca per Nuova Partita</button> : null}
         </div>
       </div>
     );
@@ -117,7 +130,7 @@ function calculateWinner(squares){
   for (let i=0; i<lines.length; i++){
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]){
-      return (squares[a] == 'X' ? 'Player 1(X)' : 'Player 2(O)');
+      return (squares[a] === 'X' ? 'Player 1(X)' : 'Player 2(O)');
     }
   }
   return null;
