@@ -15,10 +15,6 @@ interface Histprops{
 */
 
 var lastWinner = null;
-
-var count = 1;
-
-var isButtonVisible = false;
     
 function Square(props) {
 
@@ -32,15 +28,15 @@ function Square(props) {
 
 //Board: creates the game board manages the start of the game
 class Board extends React.Component {
-  constructor(props){
-    super(props);
-    this.count = 1;
-    this.state = {
-      squares : Array(9).fill(null),
-      xIsNext: true,
-      nextGameButton: false,
+    constructor(props){
+        super(props);
+        this.state = {
+            squares : Array(9).fill(null),
+            xIsNext: true,
+            nextGameButton: false,
+            gameCount: 1,
+        }
     }
-  }
   
 //handleClick = manages the clicks and the display of X and Os
     handleClick(i){
@@ -48,7 +44,7 @@ class Board extends React.Component {
         if(calculateWinner(squares) || squares[i]){
             return;
         }
-        if(squares[i] == null){
+        if(squares[i] === null){
             squares[i] = this.state.xIsNext ? 'X' : 'O'; 
             this.setState({
       	        squares: squares,
@@ -82,30 +78,30 @@ class Board extends React.Component {
     return (
       <div>
         <div id="title">
-        	<h1 id="centered">WELCOME TO THE MATCH</h1>
-        	<h3 id="centered">Game {count} of 3</h3>
+            <h1 id="centered">WELCOME TO THE MATCH</h1>
+            <h3 id="centered">Game {this.state.gameCount} of 3</h3>
         </div>
         <div className="status">{status}</div>
         <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
+            {this.renderSquare(0)}
+            {this.renderSquare(1)}
+            {this.renderSquare(2)}
         </div>
         <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
+            {this.renderSquare(3)}
+            {this.renderSquare(4)}
+            {this.renderSquare(5)}
         </div>
         <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
+            {this.renderSquare(6)}
+            {this.renderSquare(7)}
+            {this.renderSquare(8)}
         </div>
         <div>
-          <p>     </p>
+            <p>     </p>
         </div>
             <div id="newgame">
-                {this.state.nextGameButton ? <button onClick={newGame(this.state.squares, winner, this.state.nextGameButton)}>Clicca per Nuova Partita</button> : null}
+                {this.state.nextGameButton ? <button onClick={newGame(this.state.squares, winner, this.state.nextGameButton, this.state.gameCount)}>Clicca per Nuova Partita</button> : null}
             </div>
       </div>
     );
@@ -114,8 +110,8 @@ class Board extends React.Component {
 
 
 
-function newGame(squares, winner, nextGameButton) {
-    if (count < 4 && lastWinner != winner) {
+function newGame(squares, winner, nextGameButton, count) {
+    if (count < 4 && lastWinner !== winner) {
         lastWinner = winner;
         count = count + 1;
         var i = 0;
@@ -124,6 +120,7 @@ function newGame(squares, winner, nextGameButton) {
             squares[i] = null;
         }
     }
+    else return;
 }
 
 //calculateWinner = checks if someone is a winner. If we have a winner, returns a value from the array squares
