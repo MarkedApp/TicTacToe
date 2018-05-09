@@ -16,8 +16,6 @@ interface Histprops{
 
 var count = 1;
 
-var newgame = false;
-
 var isButtonVisible = false;
     
 function Square(props) {
@@ -45,7 +43,6 @@ class Board extends React.Component {
   handleClick(i){
     const squares = this.state.squares.slice();
     if(calculateWinner(squares) || squares[i]){
-      isButtonVisible = true;
       return;
     }
     if(squares[i] == null){
@@ -85,40 +82,7 @@ class Board extends React.Component {
     } else {
       status = 'Next Player: ' + (this.state.xIsNext ? 'Player 1(X)' : 'Player 2(O)');
     }
-		if(newgame){
-      newgame = false;
-      count = count + 1;
-      return (
-        <div>
-          <div id="title">
-            <h1 id="centered">BENVENUTI AL MATCH</h1>
-            <h3 id="centered">Partita {count} di 3</h3>
-          </div>
-          <div className="status">{status}</div>
-          <div className="board-row">
-            {this.renderSquare(0)}
-            {this.renderSquare(1)}
-            {this.renderSquare(2)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(3)}
-            {this.renderSquare(4)}
-            {this.renderSquare(5)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(6)}
-            {this.renderSquare(7)}
-            {this.renderSquare(8)}
-          </div>
-          <div>
-            <p>     </p>
-          </div>
-          <div id="newgame">
-            { isButtonVisible ? <button onClick="newgame = true">Clicca per Nuova Partita</button> : null}
-          </div>
-        </div>
-    	);
-    }
+		
     return (
       <div>
         <div id="title">
@@ -158,6 +122,11 @@ class Board extends React.Component {
 
 function newGame(squares, winner){
   count = count + 1;
+  var i = 0;
+  isButtonVisible = false;
+  for (i=0; i<9; i++){
+  	squares[i] = null; 
+  }
 }
 
 function calculateWinner(squares){
