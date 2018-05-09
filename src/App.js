@@ -34,6 +34,7 @@ class Board extends React.Component {
     this.state = {
       squares : Array(9).fill(null),
       xIsNext: true,
+      gameCount: 1,
     }
   }
   
@@ -48,6 +49,7 @@ class Board extends React.Component {
     	this.setState({
       	squares: squares,
       	xIsNext: !this.state.xIsNext,
+        gameCount: 1,
     	});
     }
   }
@@ -62,13 +64,13 @@ class Board extends React.Component {
     );
   }
   
-  newGame(){
-    count++;
-    var i = 0;
-    for(i = 0; i < 9; i++){
-      this.state.squares[i] = null;
-    }
-  	this.state.xIsNext = (this.winner === 'X' ? false : true);
+  newGame(winner){
+    var xStarts = (winner === 'X' ? false : true);
+    Board.setState({
+      squares : Array(9).fill(null),
+    	xIsNext : xStarts,
+      gameCount : count + 1,
+    });
   }
 
   render() {
@@ -85,7 +87,7 @@ class Board extends React.Component {
       <div>
         <div id="title">
         	<h1 id="centered">BENVENUTI AL MATCH</h1>
-        	<h3 id="centered">Partita {count} di 3</h3>
+        	<h3 id="centered">Partita {this.state.gameCount} di 3</h3>
         </div>
         <div className="status">{status}</div>
         <div className="board-row">
@@ -107,12 +109,14 @@ class Board extends React.Component {
           <p>     </p>
         </div>
         <div id="newgame">
-          { isButtonVisible ? <button onClick={this.newGame}>Clicca per Nuova Partita</button> : null}
+          { isButtonVisible ? <button onClick={this.newGame.bind(winner)}>Clicca per Nuova Partita</button> : null}
         </div>
       </div>
     );
   }
 }
+
+
 
 //calculateWinner = checks if someone is a winner. If we have a winner, returns a value from the array squares
 
