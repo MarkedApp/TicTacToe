@@ -43,38 +43,31 @@ class Board extends React.Component {
   }
   
 //handleClick = manages the clicks and the display of X and Os
-  handleClick(i){
-    const squares = this.state.squares.slice();
-    if(calculateWinner(squares) || squares[i]){
-      return;
+    handleClick(i){
+        const squares = this.state.squares.slice();
+        if(calculateWinner(squares) || squares[i]){
+            return;
+        }
+        if(squares[i] == null){
+            squares[i] = this.state.xIsNext ? 'X' : 'O'; 
+            this.setState({
+      	        squares: squares,
+      	        xIsNext: !this.state.xIsNext,
+    	    });
+        }   
     }
-    if(squares[i] == null){
-      squares[i] = this.state.xIsNext ? 'X' : 'O'; 
-    	this.setState({
-      	squares: squares,
-      	xIsNext: !this.state.xIsNext,
-    	});
-    }
-  }
   
 //renderSquare = manages values of squares and calls handleClick
-  renderSquare(i) {
-    return( 
-      <Square 
-        value={this.state.squares[i]} 
-        onClick = {() => this.handleClick(i)}   
-      />
-    );
-  }
+
+    renderSquare(i) {
+        return( 
+            <Square 
+                value={this.state.squares[i]} 
+                onClick = {() => this.handleClick(i)}   
+            />
+        );
+    }
   
-  /*newGame(winner){
-    var xStarts = (winner === 'X' ? false : true);
-    Board.setState({
-      squares : Array(9).fill(null),
-    	xIsNext : xStarts,
-      gameCount : count + 1,
-    });
-  }*/
   
   render() {
     const winner = calculateWinner(this.state.squares);
@@ -89,8 +82,8 @@ class Board extends React.Component {
     return (
       <div>
         <div id="title">
-        	<h1 id="centered">BENVENUTI AL MATCH</h1>
-        	<h3 id="centered">Partita {count} di 3</h3>
+        	<h1 id="centered">WELCOME TO THE MATCH</h1>
+        	<h3 id="centered">Game {count} of 3</h3>
         </div>
         <div className="status">{status}</div>
         <div className="board-row">
@@ -112,7 +105,7 @@ class Board extends React.Component {
           <p>     </p>
         </div>
             <div id="newgame">
-                {this.state.nextGameButton ? <button onClick={newGame(this.state.squares, winner)}>Clicca per Nuova Partita</button> : null}
+                {this.state.nextGameButton ? <button onClick={newGame(this.state.squares, winner, this.state.nextGameButton)}>Clicca per Nuova Partita</button> : null}
             </div>
       </div>
     );
@@ -121,12 +114,12 @@ class Board extends React.Component {
 
 
 
-function newGame(squares, winner) {
+function newGame(squares, winner, nextGameButton) {
     if (count < 4 && lastWinner != winner) {
         lastWinner = winner;
         count = count + 1;
         var i = 0;
-        isButtonVisible = false;
+        nextGameButton = false;
         for (i = 0; i < 9; i++) {
             squares[i] = null;
         }

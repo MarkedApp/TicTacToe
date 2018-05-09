@@ -1,0 +1,8 @@
+09/05/2018 17:05
+
+The first game ends correctly;
+The next game starts by clicking on a square and not on the button;
+The second game starts and ends with a single square clicked;
+The next game starts by clicking on a square and not on the button;
+The third game ends correctly;
+It begins a fourth game;
